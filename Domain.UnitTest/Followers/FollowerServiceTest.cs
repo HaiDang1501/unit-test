@@ -7,17 +7,17 @@ namespace Domain.UnitTest.Followers;
 
 public sealed class FollowerServiceTest
 {
-    private static readonly string Email = "abc@gmail.com";
-    private static readonly string Email2 = "abc@gmail.com";
-    private static readonly string Name = "Hai Dang";
-    private static readonly DateTime Utc = DateTime.UtcNow;
-    private readonly FollowerService _followerSerivceMock;
+    private const string Email = "abc@gmail.com";
+    private const string Email2 = "abc@gmail.com";
+    private const string Name = "Hai Dang";
+    private readonly DateTime Utc = DateTime.UtcNow;
+    private readonly FollowerService _followerServiceMock;
     private readonly IFollowerRepository _followerRepositoryMock;
 
     public FollowerServiceTest()
     {
         _followerRepositoryMock = Substitute.For<IFollowerRepository>();
-        _followerSerivceMock = new(_followerRepositoryMock);
+        _followerServiceMock = new(_followerRepositoryMock);
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public sealed class FollowerServiceTest
         var user = User.Create(Name,Email,true);
 
         // Act
-        var result = await _followerSerivceMock.StartFollowingAsync(user, user, Utc, default);
+        var result = await _followerServiceMock.StartFollowingAsync(user, user, Utc, default);
 
         // Assert
 
@@ -43,7 +43,7 @@ public sealed class FollowerServiceTest
         var followed = User.Create(Name, Email2, false);
 
         // Act
-        var result = await _followerSerivceMock.StartFollowingAsync(user, followed, Utc, default);
+        var result = await _followerServiceMock.StartFollowingAsync(user, followed, Utc, default);
 
         // Assert
 
@@ -61,7 +61,7 @@ public sealed class FollowerServiceTest
         // Act
         _followerRepositoryMock.IsAlreadyFollowingAsync(user.Id, followed.Id, default).Returns(true);
 
-        var result = await _followerSerivceMock.StartFollowingAsync(user, followed, Utc, default);
+        var result = await _followerServiceMock.StartFollowingAsync(user, followed, Utc, default);
 
         // Assert
 
@@ -79,7 +79,7 @@ public sealed class FollowerServiceTest
         // Act
         _followerRepositoryMock.IsAlreadyFollowingAsync(user.Id, followed.Id, default).Returns(false);
 
-        var result = await _followerSerivceMock.StartFollowingAsync(user, followed, Utc, default);
+        var result = await _followerServiceMock.StartFollowingAsync(user, followed, Utc, default);
 
         // Assert
 
@@ -97,7 +97,7 @@ public sealed class FollowerServiceTest
         // Act
         _followerRepositoryMock.IsAlreadyFollowingAsync(user.Id, followed.Id, default).Returns(false);
 
-        await _followerSerivceMock.StartFollowingAsync(user, followed, Utc, default);
+        await _followerServiceMock.StartFollowingAsync(user, followed, Utc, default);
 
         // Assert
 

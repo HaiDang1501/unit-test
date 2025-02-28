@@ -1,6 +1,8 @@
-﻿namespace Domain.Followers;
+﻿using Domain.Users;
 
-public sealed class Follower
+namespace Domain.Followers;
+
+public class Follower
 {
     public Guid UserId { get; private set; }
     public Guid FollowerId { get; private set; }
