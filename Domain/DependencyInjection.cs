@@ -21,7 +21,7 @@ public static class DependencyInjection
 
         services.AddScoped<IFollowerRepository, FollowerRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<FollowerService>();
+        //services.AddScoped<FollowerService>();
         return services;
     }
 }

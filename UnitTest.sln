@@ -18,8 +18,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.IntegrationTests", "Domain.IntgrationTests\Domain.IntegrationTests.csproj", "{2B22FE7F-0AC7-4830-AD4B-740F0CEDDF14}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "requests", "requests", "{74B9056C-1BC0-4216-8318-C77CBAAF15B8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{14401C00-DF5F-44F6-AE29-28D4129779D7}"
+	ProjectSection(SolutionItems) = preProject
+		Follower.http = Follower.http
+		User.http = User.http
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,7 +58,6 @@ Global
 		{ACAA3A8D-C8CE-42D8-98F0-D7FA165AD42D} = {B0ADE870-7A70-4AFB-AF0B-100BF7DA6833}
 		{F3468F6E-E266-4622-A4FB-BF706B1C874F} = {D8133B72-324D-44DE-95FD-7B24CBDE9A7D}
 		{2B22FE7F-0AC7-4830-AD4B-740F0CEDDF14} = {B0ADE870-7A70-4AFB-AF0B-100BF7DA6833}
-		{14401C00-DF5F-44F6-AE29-28D4129779D7} = {74B9056C-1BC0-4216-8318-C77CBAAF15B8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C71DC423-C8CA-42FD-8920-78855F4857E9}

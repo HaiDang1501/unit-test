@@ -26,6 +26,13 @@ public class UserService(IUserRepository repository)
 
         return result is not null ? GetUserByIdResponse.FromDomain(result) : null;
     }
+
+    public async Task<IList<GetUserByIdResponse>> GetAll(CancellationToken cancellationToken)
+    {
+        var result = await _repository.GetAll(cancellationToken);
+
+        return GetUserByIdResponse.FromDomain(result);
+    }
 }
 
 public record CreateUserRequest(string Name, string Email)
@@ -50,5 +57,17 @@ public record GetUserByIdResponse(Guid Id, string Name, string Email, bool HasDe
             user.Name,
             user.Email,
             user.HasPublicProfile);
+    }
+
+    public static IList<GetUserByIdResponse> FromDomain(ICollection<User> users)
+    {
+        var result = new List<GetUserByIdResponse>();
+
+        foreach(var user in users)
+        {
+            result.Add(FromDomain(user));
+        }
+
+        return result;
     }
 }

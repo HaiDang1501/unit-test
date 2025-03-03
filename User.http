@@ -1,0 +1,21 @@
+@rootUrl=https://localhost:7123
+@userIdParam=9cc0d2e1-ccc2-4367-a4fd-1f88033a1bbb
+
+GET {{rootUrl}}/User
+Accept: application/json
+
+###
+
+GET {{rootUrl}}/User/{{userIdParam}}
+Accept: application/json
+
+###
+
+POST {{rootUrl}}/User
+Content-Type: application/json
+
+{
+  "name": "John",
+  "email": "abcd@gmail.com",
+  "hasPublicProfile": true
+}

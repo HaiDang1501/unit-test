@@ -1,0 +1,5 @@
+@rootUrl=https://localhost:7123
+@userIdParam=9cc0d2e1-ccc2-4367-a4fd-1f88033a1bbb
+@followedIdParam=81458078-3127-48ac-80d3-723b177aa2e2
+
+GET {{rootUrl}}/Follower/{{userIdParam}}/{{followedIdParam}}

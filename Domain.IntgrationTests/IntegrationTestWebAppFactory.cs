@@ -50,4 +50,5 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
     {
         return _dbContainer.StopAsync();
     }
+
 }

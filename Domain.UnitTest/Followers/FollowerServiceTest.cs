@@ -2,6 +2,7 @@
 using Domain.Users;
 using FluentAssertions;
 using NSubstitute;
+using WebUI.Services;
 
 namespace Domain.UnitTest.Followers;
 
@@ -13,11 +14,13 @@ public sealed class FollowerServiceTest
     private readonly DateTime Utc = DateTime.UtcNow;
     private readonly FollowerService _followerServiceMock;
     private readonly IFollowerRepository _followerRepositoryMock;
+    private readonly IUserRepository _userRepositoryMock;
 
     public FollowerServiceTest()
     {
         _followerRepositoryMock = Substitute.For<IFollowerRepository>();
-        _followerServiceMock = new(_followerRepositoryMock);
+        _userRepositoryMock = Substitute.For<IUserRepository>();
+        _followerServiceMock = new(_followerRepositoryMock, _userRepositoryMock);
     }
 
     [Fact]
@@ -26,8 +29,10 @@ public sealed class FollowerServiceTest
         // Arrange
         var user = User.Create(Name,Email,true);
 
+        _userRepositoryMock.GetById(user.Id).Returns(user);
+
         // Act
-        var result = await _followerServiceMock.StartFollowingAsync(user, user, Utc, default);
+        var result = await _followerServiceMock.StartFollowingAsync(user.Id, user.Id, Utc, default);
 
         // Assert
 
@@ -41,9 +46,12 @@ public sealed class FollowerServiceTest
         // Arrange
         var user = User.Create(Name, Email, false);
         var followed = User.Create(Name, Email2, false);
+       
+        _userRepositoryMock.GetById(user.Id).Returns(user);
+        _userRepositoryMock.GetById(followed.Id).Returns(followed);
 
         // Act
-        var result = await _followerServiceMock.StartFollowingAsync(user, followed, Utc, default);
+        var result = await _followerServiceMock.StartFollowingAsync(user.Id, followed.Id, Utc, default);
 
         // Assert
 
@@ -58,10 +66,13 @@ public sealed class FollowerServiceTest
         var user = User.Create(Name, Email, false);
         var followed = User.Create(Name, Email2, true);
 
+        _userRepositoryMock.GetById(user.Id).Returns(user);
+        _userRepositoryMock.GetById(followed.Id).Returns(followed);
+
         // Act
         _followerRepositoryMock.IsAlreadyFollowingAsync(user.Id, followed.Id, default).Returns(true);
 
-        var result = await _followerServiceMock.StartFollowingAsync(user, followed, Utc, default);
+        var result = await _followerServiceMock.StartFollowingAsync(user.Id, followed.Id, Utc, default);
 
         // Assert
 
@@ -76,10 +87,13 @@ public sealed class FollowerServiceTest
         var user = User.Create(Name, Email, false);
         var followed = User.Create(Name, Email2, true);
 
+        _userRepositoryMock.GetById(user.Id).Returns(user);
+        _userRepositoryMock.GetById(followed.Id).Returns(followed);
+
         // Act
         _followerRepositoryMock.IsAlreadyFollowingAsync(user.Id, followed.Id, default).Returns(false);
 
-        var result = await _followerServiceMock.StartFollowingAsync(user, followed, Utc, default);
+        var result = await _followerServiceMock.StartFollowingAsync(user.Id, followed.Id, Utc, default);
 
         // Assert
 
@@ -94,14 +108,17 @@ public sealed class FollowerServiceTest
         var user = User.Create(Name, Email, false);
         var followed = User.Create(Name, Email2, true);
 
+        _userRepositoryMock.GetById(user.Id).Returns(user);
+        _userRepositoryMock.GetById(followed.Id).Returns(followed);
+
         // Act
         _followerRepositoryMock.IsAlreadyFollowingAsync(user.Id, followed.Id, default).Returns(false);
 
-        await _followerServiceMock.StartFollowingAsync(user, followed, Utc, default);
+        await _followerServiceMock.StartFollowingAsync(user.Id, followed.Id, Utc, default);
 
         // Assert
 
-        _followerRepositoryMock.Received(1).Insert(Arg.Is<Follower>(x => x.UserId == user.Id && x.FollowerId == followed.Id));
+        await _followerRepositoryMock.Received(1).Insert(Arg.Is<Follower>(x => x.UserId == user.Id && x.FollowerId == followed.Id));
 
     }
 }

@@ -24,8 +24,10 @@ public class UserRepository(ApplicationDbContext dbContext): IUserRepository
         return result ?? null;
     }
 
-    public Task<List<User>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<IList<User>> GetAll(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var result = await _dbContext.User.ToArrayAsync(cancellationToken);
+
+        return result;
     }
 }

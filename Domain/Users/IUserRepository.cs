@@ -6,5 +6,5 @@ public interface IUserRepository
 
     public Task<User?> GetById(Guid id, CancellationToken cancellationToken = default);
 
-    public Task<List<User>> GetAll(CancellationToken cancellationToken = default);
+    public Task<IList<User>> GetAll(CancellationToken cancellationToken = default);
 }
